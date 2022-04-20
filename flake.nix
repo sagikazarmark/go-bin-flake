@@ -29,6 +29,10 @@
 
         overlays.default = self.overlay;
 
+        overlays.replace = final: prev: {
+          hugo = self.overlay.hugo-bin;
+        };
+
         packages = forAllSystems (
           system:
             {
