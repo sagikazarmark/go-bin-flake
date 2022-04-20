@@ -21,7 +21,7 @@ This flake relies on official binary distributions for these packages.
     gobin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, flake-utils, gopkgs, ... }:
+  outputs = { self, nixpkgs, flake-utils, gobin, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
@@ -46,7 +46,7 @@ Or using overlay:
     gobin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, flake-utils, gopkgs, ... }:
+  outputs = { self, nixpkgs, flake-utils, gobin, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
