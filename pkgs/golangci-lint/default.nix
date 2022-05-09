@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchzip, installShellFiles }:
+{ lib, stdenv, fetchzip, installShellFiles, go }:
 
 stdenv.mkDerivation rec {
   pname = "golantci-lint-bin";
@@ -36,6 +36,7 @@ stdenv.mkDerivation rec {
   dontStrip = stdenv.isDarwin;
 
   nativeBuildInputs = [ installShellFiles ];
+  buildInputs = [ go ];
 
   installPhase = ''
     runHook preInstall
@@ -44,17 +45,11 @@ stdenv.mkDerivation rec {
   '';
 
   postInstall = ''
+    export GOLANGCI_LINT_CACHE=$TMPDIR
     installShellCompletion --cmd golangci-lint \
       --bash <($out/bin/golangci-lint completion bash) \
       --fish <($out/bin/golangci-lint completion fish) \
       --zsh <($out/bin/golangci-lint completion zsh)
-  '';
-
-  doInstallCheck = true;
-  installCheckPhase = ''
-    runHook preInstallCheck
-    $out/bin/golangci-lint version | grep v${version}
-    runHook postInstallCheck
   '';
 
   dontPatchELF = true;
