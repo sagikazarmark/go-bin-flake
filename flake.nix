@@ -23,7 +23,7 @@
       rec
       {
         overlay = final: prev: with final; {
-          # golangci-lint-bin = callPackage ./pkgs/golangci-lint/default.nix {};
+          golangci-lint-bin = callPackage ./pkgs/golangci-lint/default.nix {};
           hugo-bin = callPackage ./pkgs/hugo/default.nix {};
         };
 
@@ -31,12 +31,13 @@
 
         overlays.replace = final: prev: {
           hugo = self.overlay.hugo-bin;
+          golangci-lint = self.overlay.golangci-lint-bin;
         };
 
         packages = forAllSystems (
           system:
             {
-              inherit (nixpkgsFor.${system}) hugo-bin;
+              inherit (nixpkgsFor.${system}) hugo-bin golangci-lint-bin;
             }
         );
       };
